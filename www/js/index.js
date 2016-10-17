@@ -46,15 +46,11 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
-
-
-
-
-
-
 };
 
-  function GetUser(){
+app.initialize();
+
+ function GetUser(){
             var user = document.getElementById('user').value;
             var pass = document.getElementById('pass').value;
             var datastring = "user="+user+"&pass="+pass+"&login=";
