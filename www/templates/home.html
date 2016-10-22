@@ -31,10 +31,10 @@
     		color: green;
     		opacity: 0.9999;
     	}
-    	.homeimg{
+    	/*.homeimg{
     		font-size: 15vw;
     		margin-top:8%;
-    	}
+    	}*/
     	#homediv{
     		/*border: solid 3px black;*/
     		justify-content: center;
@@ -57,10 +57,10 @@
 	    		color: green;
 	    		opacity: 0.9999;
 	    	}
-	    	.homeimg{
+	    	/*.homeimg{
 	    		font-size: 15vw;
 	    		margin-top:8%;
-	    	}
+	    	}*/
 		}
 		@media (min-width: 7px) {
 		 /* .nombremod {
@@ -79,10 +79,10 @@
 	    		color: green;
 	    		opacity: 0.9999;
 	    	}
-	    	.homeimg{
+	    	/*.homeimg{
 	    		font-size: 12vw;
 	    		margin-top:8%;
-	    	}
+	    	}*/
 		}
     </style>
 </head>
@@ -127,6 +127,11 @@
 			var alto = $(window).height();
 			$('.btn-home').width(ancho-24);
 			$('.btn-home').height(ancho-12);
+
+			var imagenSZ =ancho -30;
+			$('.homeimg').css('font-size',imagenSZ);
+			$('.homeimg').css('margin-top','8%');
+			
 
 
 		}
