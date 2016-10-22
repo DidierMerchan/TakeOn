@@ -20,7 +20,7 @@
 
         }
        .spacio{
-       	margin-top: 10px;
+       	margin-top: 15px;
        	text-transform:uppercase;
        }
        .back{
@@ -43,8 +43,17 @@
        	font-weight: bold;
        }
 
-       #modaltitulo, #modalbody input, select, #modalfooter {
+       #modaltitulo, #modalbody input {
        	font-size: 2em;
+       	height: 50px;
+       	
+       }
+       #modalfooter{
+       	font-size: 2em;
+       }
+       #modalbody  select{
+       	font-size: 2em;
+       	height: 50px;
        }
 
        #newitem i{
@@ -79,17 +88,17 @@
         <h4 class="modal-title" id="modaltitulo">  </h4>
       </div>
       <div class="modal-body" id="modalbody">
-      	<input type="text" id="Nombre" placeholder="Nombre" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();" autofocus>
-       	<input type="text" id="Codigo" placeholder="Codigo" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();">
-       	<select class="form-control spacio input-lg" standard title="Unidad" id="Unidad">
+      	<input type="text" id="Nombre" placeholder="Nombre" class="form-control spacio " onkeyup="javascript:this.value=this.value.toUpperCase();" autofocus>
+       	<input type="text" id="Codigo" placeholder="Codigo" class="form-control spacio " onkeyup="javascript:this.value=this.value.toUpperCase();">
+       	<select class="form-control spacio " standard title="Unidad" id="Unidad">
 		   	<option value="SELECCIONE">-- Seleccione --</option>
 			<option value="CAJA">CAJA</option>
 			<option value="KILO">KILO</option>
 			<option value="UNIDAD">UNIDAD</option>
 		</select>	
-       	<input type="number" id="CantidadIni" placeholder="Cantidad Inicial" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();">
-       	<input type="number" id="Precio" placeholder="Precio" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();">
-       	<select class="form-control spacio input-lg" standard title="Estado" id="Estado" >
+       	<input type="number" id="CantidadIni" placeholder="Cantidad Inicial" class="form-control spacio " onkeyup="javascript:this.value=this.value.toUpperCase();">
+       	<input type="number" id="Precio" placeholder="Precio" class="form-control spacio " onkeyup="javascript:this.value=this.value.toUpperCase();">
+       	<select class="form-control spacio " standard title="Estado" id="Estado" >
 			<option value="Activo">Activo</option>
 			<option value="Inactivo">Inactivo</option>
 		</select>
