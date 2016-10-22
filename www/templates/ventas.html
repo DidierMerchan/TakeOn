@@ -124,7 +124,7 @@
 	<a href="home.html" class="nofondo btn"><i class="glyphicon glyphicon-menu-left back"></i></a>
 	  <big style="color: white; font-size: 2.3em;">Ventas</big> 
 	  <small></small>
-	  <button type="button" id="newitem" class="btn btn-success btn-lg pull-right" onclick="return false;">
+	  <button type="button" id="newitem" class="btn btn-success btn-lg pull-right" onclick="pedido();return false;">
 			<i class="glyphicon glyphicon-ok"></i>
 			<small class="badge" id="shipitem"></small>
 		</button>
@@ -149,42 +149,12 @@
 
 		$(document).ready(function(){
 			getproducto();
-			// (function ($) {
-   //              $('#filtrar').keyup(function () {
-   //                  var rex = new RegExp($(this).val(), 'i');
-   //                  $('#listgroup a').hide();
-   //                  $('#listgroup a').filter(function () {
-   //                      return rex.test($(this).text());
-   //                  }).show();
-   //              })
-   //          }(jQuery));
-			 document.addEventListener("deviceready", onDeviceReady, false); 
+			
+			 // document.addEventListener("deviceready", onDeviceReady, false); 
 		});
 
 
-		function onDeviceReady(){
-		  document.addEventListener("backbutton", onBackKeyDown, false);
-		} 
-
-		function onBackKeyDown() {
-			// console.log('entro a backey');
-			// if (!$('#Producto').is(':visible')){
-			// 	console.log('entro a visible');
-			//    $('#Producto').modal('hide');
-			// }
-			// else{
-			// 	console.log('entro a invisible');
-			   window.location.href ='cara.html';
-			// }
-
-		  //       // Si no es la primera pantalla (con tu funcion)
-		  // if(!isFirstScreen(pantallaActual)){
-		  //   volverAtras();
-		  // }else{
-		  //               // cerramos la aplicacion
-		  //   navigator.app.exitApp();
-		  // }
-		}
+		
 
 		function getproducto(){
 			$('#listgroup').empty();
@@ -214,44 +184,19 @@
             });
 		}
 
-		// function guardarProducto(){
-		// 	var nombre=$('#Nombre').val();
-		// 	var codigo=$('#Codigo').val();
-		// 	var cantini=$('#CantidadIni').val();
-		// 	var precio=$('#Precio').val();
-		// 	var unidad=$('#Unidad').val();
-		// 	var estado=$('#Estado').val();
-		// 	$.ajax({
-  //               type:'post',
-  //               url:'http://192.168.0.20/BACKEND/CONTROLLER/productos.php',
-  //               data:{productos:'add', nombre:nombre, codigo:codigo, cantini:cantini,precio:precio,unidad:unidad,estado:estado},
-  //               crossDomain: true,
-  //               cache: false,
-  //               datatype: 'json',
-  //             success: function(data){
-  //             	if (data != '' || data !=null) {
-  //             		alert(data);
-  //             	}else{
-  //             		$('#Producto').modal('hide');
-	 //              	getproducto();
-	 //              	Limpiar();	
-  //             	}
-  //             }
-  //           });
-
-		// }
-
+		
 		function additem(id,nombre, unidad){
 			$('#Producto').modal({backdrop: 'static', keyboard: false});
 			$('#modaltitulo').html('Agregar '+nombre);
 			// $('#').append();
-			if (unidad =='CAJA') {
-				var media ='<label style="font-size: 2em">'+
+			var media ='<label style="font-size: 2em">'+
                 '<input type="checkbox" id="media" >'+
                 '<span class="cr"><i class="cr-icon fa fa-check"></i></span>'+
                 '1/2</label>';
-            	$('#ckeckmedia').append(media);    
-			}
+
+			if (unidad =='CAJA') {$('#ckeckmedia').html(media);}
+			else{$('#ckeckmedia').html('');    		}
+
 			var btnadd ='<button type="button" class="btn btn-success" onclick="addProducto('+id+')">Agregar</button>';
 			var btnclose='<button type="button" class="btn btn-default" onclick="Limpiar()">Close</button>';
 			$( "#Cantidad" ).focus();
@@ -283,27 +228,11 @@
 			}
 			
 		}
-		// function editarProducto(id){
-		// 	var nombre=$('#Nombre').val();
-		// 	var codigo=$('#Codigo').val();
-		// 	var cantini=$('#CantidadIni').val();
-		// 	var precio=$('#Precio').val();
-		// 	var unidad=$('#Unidad').val();
-		// 	var estado=$('#Estado').val();
-		// 	$.ajax({
-  //               type:'post',
-  //               url:'http://192.168.0.20/BACKEND/CONTROLLER/productos.php',
-  //               data:{productos:'edit', nombre:nombre, codigo:codigo, cantini:cantini,precio:precio,unidad:unidad,estado:estado,id:id},
-  //               crossDomain: true,
-  //               cache: false,
-  //               datatype: 'json',
-  //             success: function(data){
-  //             	$('#Producto').modal('hide');
-  //             	getproducto();
-  //             	Limpiar();
-  //             }
-  //           });
-		// }
+		function pedido(){
+			localStorage.setItem('DatosPedido', JSON.stringify(JsonPedido));
+			window.location.href = 'DetallePedido.html';
+		}
+	
 
 		function Limpiar(){
 			$('#Producto').modal('hide');

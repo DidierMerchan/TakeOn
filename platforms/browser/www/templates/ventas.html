@@ -245,13 +245,14 @@
 			$('#Producto').modal({backdrop: 'static', keyboard: false});
 			$('#modaltitulo').html('Agregar '+nombre);
 			// $('#').append();
-			if (unidad =='CAJA') {
-				var media ='<label style="font-size: 2em">'+
+			var media ='<label style="font-size: 2em">'+
                 '<input type="checkbox" id="media" >'+
                 '<span class="cr"><i class="cr-icon fa fa-check"></i></span>'+
                 '1/2</label>';
-            	$('#ckeckmedia').append(media);    
-			}
+
+			if (unidad =='CAJA') {$('#ckeckmedia').html(media);}
+			else{$('#ckeckmedia').html('');    		}
+
 			var btnadd ='<button type="button" class="btn btn-success" onclick="addProducto('+id+')">Agregar</button>';
 			var btnclose='<button type="button" class="btn btn-default" onclick="Limpiar()">Close</button>';
 			$( "#Cantidad" ).focus();
