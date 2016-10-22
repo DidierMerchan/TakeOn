@@ -33,6 +33,21 @@
        .Inactivo{
        	 background-color: darkgrey;
        }
+       @media (min-width: 700px) {
+		body{
+			font-size: 4em;
+		}
+		#newitem{
+			height: 9vw;
+			height: 9vw;
+		}
+		#newitem i{
+			font-size: 4em;	
+		}
+
+
+		}
+
     </style>
 </head>
 <body>
@@ -46,17 +61,17 @@
         <h4 class="modal-title" id="modaltitulo">  </h4>
       </div>
       <div class="modal-body" id="modalbody">
-      	<input type="text" id="Nombre" placeholder="Nombre" class="form-control spacio" onkeyup="javascript:this.value=this.value.toUpperCase();" autofocus>
-       	<input type="text" id="Codigo" placeholder="Codigo" class="form-control spacio" onkeyup="javascript:this.value=this.value.toUpperCase();">
-       	<select class="form-control spacio" standard title="Unidad" id="Unidad">
+      	<input type="text" id="Nombre" placeholder="Nombre" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();" autofocus>
+       	<input type="text" id="Codigo" placeholder="Codigo" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();">
+       	<select class="form-control spacio input-lg" standard title="Unidad" id="Unidad">
 		   	<option value="SELECCIONE">-- Seleccione --</option>
 			<option value="CAJA">CAJA</option>
 			<option value="KILO">KILO</option>
 			<option value="UNIDAD">UNIDAD</option>
 		</select>	
-       	<input type="number" id="CantidadIni" placeholder="Cantidad Inicial" class="form-control spacio" onkeyup="javascript:this.value=this.value.toUpperCase();">
-       	<input type="number" id="Precio" placeholder="Precio" class="form-control spacio" onkeyup="javascript:this.value=this.value.toUpperCase();">
-       	<select class="form-control spacio" standard title="Estado" id="Estado" >
+       	<input type="number" id="CantidadIni" placeholder="Cantidad Inicial" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();">
+       	<input type="number" id="Precio" placeholder="Precio" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();">
+       	<select class="form-control spacio input-lg" standard title="Estado" id="Estado" >
 			<option value="Activo">Activo</option>
 			<option value="Inactivo">Inactivo</option>
 		</select>
@@ -145,7 +160,7 @@
                  $.each(Json, function(index,val){
                  	//console.log(val.ID);
                  	var item =	"<a href='#' onclick='verProducto("+val.ID+");return false;'"+
-                 				"class='list-group-item "+val.ESTADO+"'>"+val.NOMBRE+
+                 				"class='list-group-item elementos"+val.ESTADO+"'>"+val.NOMBRE+
 		  						"<small class='pull-right'>$ "+val.PRECIO+"</small></a>";
 		  			//console.log(item);
 		  			$('#listgroup').append(item);
@@ -186,8 +201,8 @@
 			$('#Producto').modal({backdrop: 'static', keyboard: false});
 			$('#modaltitulo').html('Nuevo Producto');
 			// $('#').append();
-			var btnadd ='<button type="button" class="btn btn-success" onclick="guardarProducto()">Guardar</button>';
-			var btnclose='<button type="button" class="btn btn-default" onclick="Limpiar()">Close</button>';
+			var btnadd ='<button type="button" class="btn btn-success btn-lg" onclick="guardarProducto()">Guardar</button>';
+			var btnclose='<button type="button" class="btn btn-default btn-lg" onclick="Limpiar()">Close</button>';
 
 			$('#modalfooter').html(btnadd+btnclose);
 		}
@@ -196,8 +211,8 @@
 
 			$('#modaltitulo').html('Detalles Producto '+id);
 			// $('#').append();
-			var btnadd ='<button type="button" class="btn btn-success" onclick="editarProducto('+id+')">Guardar</button>';
-			var btnclose='<button type="button" class="btn btn-default" onclick="Limpiar()">Close</button>';
+			var btnadd ='<button type="button" class="btn btn-success btn-lg" onclick="editarProducto('+id+')">Guardar</button>';
+			var btnclose='<button type="button" class="btn btn-default btn-lg" onclick="Limpiar()">Close</button>';
 
 			$('#modalfooter').html(btnadd+btnclose);
 			$.ajax({

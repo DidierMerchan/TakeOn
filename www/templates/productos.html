@@ -33,6 +33,21 @@
        .Inactivo{
        	 background-color: darkgrey;
        }
+       @media (min-width: 700px) {
+		body{
+			font-size: 4em;
+		}
+		#newitem{
+			height: 9vw;
+			height: 9vw;
+		}
+		#newitem i{
+			font-size: 4em;	
+		}
+
+
+		}
+
     </style>
 </head>
 <body>
@@ -145,7 +160,7 @@
                  $.each(Json, function(index,val){
                  	//console.log(val.ID);
                  	var item =	"<a href='#' onclick='verProducto("+val.ID+");return false;'"+
-                 				"class='list-group-item "+val.ESTADO+"'>"+val.NOMBRE+
+                 				"class='list-group-item elementos"+val.ESTADO+"'>"+val.NOMBRE+
 		  						"<small class='pull-right'>$ "+val.PRECIO+"</small></a>";
 		  			//console.log(item);
 		  			$('#listgroup').append(item);

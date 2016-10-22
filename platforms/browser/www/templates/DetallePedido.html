@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Inicio</title>
+	<title>Detalle Pedido</title>
 	<meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
@@ -94,6 +94,12 @@
 		.radio label input[type="radio"]:disabled + .cr {
 		    opacity: .5;
 		}
+		.lista{
+			background-color: transparent;
+		}
+		.lista span, big{
+			color: white;
+		}
     </style>
 </head>
 <body>
@@ -105,12 +111,12 @@
         <h4 class="modal-title" id="modaltitulo">  </h4>
       </div>
       <div class="modal-body" id="modalbody">
-      	<input   type="number" id="Cantidad" placeholder="Cantidad" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();" >
-      	<br>
+      	<!-- <input   type="number" id="Cantidad" placeholder="Cantidad" class="form-control spacio input-lg" onkeyup="javascript:this.value=this.value.toUpperCase();" >
+      	<br> -->
       	<!-- <input type="checkbox" id="Media" class="pull-left"><label style="font-size: 2em;">1/2</label> -->
-      	<div class="checkbox" id="ckeckmedia">
+      	<!-- <div class="checkbox" id="ckeckmedia">
             
-        </div>
+        </div> -->
 
       </div>
       <div class="modal-footer" id="modalfooter">
@@ -122,7 +128,7 @@
 
 	<div class=" container page-header">
 	<a href="home.html" class="nofondo btn"><i class="glyphicon glyphicon-menu-left back"></i></a>
-	  <big style="color: white; font-size: 2.3em;">Ventas</big> 
+	  <big style="color: white; font-size: 2.3em;">Detalle del Pedido</big> 
 	  <small></small>
 	  <button type="button" id="newitem" class="btn btn-success btn-lg pull-right" onclick="pedido();return false;">
 			<i class="glyphicon glyphicon-ok"></i>
@@ -148,7 +154,7 @@
 
 
 		$(document).ready(function(){
-			getproducto();
+			getpedido();
 			
 			 // document.addEventListener("deviceready", onDeviceReady, false); 
 		});
@@ -156,89 +162,110 @@
 
 		
 
-		function getproducto(){
+		function getpedido(){
 			$('#listgroup').empty();
+
+			var datos= JSON.parse(localStorage.getItem("DatosPedido"));
+			var ids='';
+			console.log(datos);
+			$.each(datos, function(index, val){
+				ids=ids+val.id+',';
+			});
+			var topedido =ids.substring(0,ids.length-1);
 			$.ajax({
                 type:'post',
-                url:'http://192.168.0.20/BACKEND/CONTROLLER/ventas.php',
-                data:{ventas:'get'},
+                url:'http://192.168.0.20/BACKEND/CONTROLLER/Pedido.php',
+                data:{pedido:'get', valores:topedido},
                 crossDomain: true,
                 cache: false,
                 datatype: 'json',
               success: function(data){
               	//console.log(data);
                  var Json = JSON.parse(data); 
+                 var total=0;
                  //console.log(JSON.stringify(Json));  
                  $.each(Json, function(index,val){
-                 	//console.log(val.ID);
-                 	var variables =val.ID+',"'+val.NOMBRE+'"'+',"'+val.UNIDAD+'"';
-                 	var item =	"<a href='#' onclick='additem("+variables+");return false;'"+
-                 				"class='list-group-item "+val.ESTADO+"'><small class='badge pull-left' id='bag"+val.ID+"'> "+
-                 				val.CANTIDAD_INI+"</small> &nbsp;"+val.NOMBRE+
-                 				"<small id='unidad' style='display:none;'>"+val.UNIDAD+"</small>"+
-                 				"<small class='pull-right' id='val"+val.ID+"'>$ "+val.PRECIO+"</small></a>";
-		  			//console.log(item);
-		  			$('#listgroup').append(item);
+ 					$.each(datos, function(i,valor){
+ 						if (valor.id ==val.ID) {
+ 							var items =	"<a href='#' ondblclick='quitaritem("+val.ID+");return false;'"+
+ 								"class='list-group-item lista'>"+
+		  						"<span>"+val.NOMBRE+"</span><br>"+
+		  						// "<big style='display'>"+val.ID+"</big>"+
+		  						"<big> $ "+valor.valor+"</big>"+
+		  						"<big> x "+valor.cantidad+"</big>"+
+		  						"<big class='pull-right'> $ "+(valor.valor*valor.cantidad)+"</big>"+
+		  						"</a>";
+		  						total=total+(valor.valor*valor.cantidad);
+		  						$('#listgroup').append(items);
+ 						}
+
+ 					});
+		  			
+		  			
                  });
+
+                 var divisor =	"<hr width='100%'/>"+
+                 				"<br><big class='pull-right'><big><big>Total Pedido: $ "+total+"</big></big></big>";
+                 $('#listgroup').append(divisor);
               }
             });
 		}
 
 		
-		function additem(id,nombre, unidad){
-			$('#Producto').modal({backdrop: 'static', keyboard: false});
-			$('#modaltitulo').html('Agregar '+nombre);
-			// $('#').append();
-			var media ='<label style="font-size: 2em">'+
-                '<input type="checkbox" id="media" >'+
-                '<span class="cr"><i class="cr-icon fa fa-check"></i></span>'+
-                '1/2</label>';
+		// function additem(id,nombre, unidad){
+		// 	$('#Producto').modal({backdrop: 'static', keyboard: false});
+		// 	$('#modaltitulo').html('Agregar '+nombre);
+		// 	// $('#').append();
+		// 	var media ='<label style="font-size: 2em">'+
+  //               '<input type="checkbox" id="media" >'+
+  //               '<span class="cr"><i class="cr-icon fa fa-check"></i></span>'+
+  //               '1/2</label>';
 
-			if (unidad =='CAJA') {$('#ckeckmedia').html(media);}
-			else{$('#ckeckmedia').html('');    		}
+		// 	if (unidad =='CAJA') {$('#ckeckmedia').html(media);}
+		// 	else{$('#ckeckmedia').html('');    		}
 
-			var btnadd ='<button type="button" class="btn btn-success" onclick="addProducto('+id+')">Agregar</button>';
-			var btnclose='<button type="button" class="btn btn-default" onclick="Limpiar()">Close</button>';
-			$( "#Cantidad" ).focus();
-			$('#modalfooter').html(btnadd+btnclose);
-		}
+		// 	var btnadd ='<button type="button" class="btn btn-success" onclick="addProducto('+id+')">Agregar</button>';
+		// 	var btnclose='<button type="button" class="btn btn-default" onclick="Limpiar()">Close</button>';
+		// 	$( "#Cantidad" ).focus();
+		// 	$('#modalfooter').html(btnadd+btnclose);
+		// }
 
-		function addProducto(id){
-			var exist=false;
-			var disponible = parseInt($('#bag'+id).text());
-			var cantidad= parseInt($('#Cantidad').val());
-			var valor= $('#val'+id).text().substring(2);
+		// function addProducto(id){
+		// 	var exist=false;
+		// 	var disponible = parseInt($('#bag'+id).text());
+		// 	var cantidad= parseInt($('#Cantidad').val());
+		// 	var valor= $('#val'+id).text().substring(2);
 			
 			
-			console.log(cantidad+"   -    "+ disponible);
-			if (cantidad >disponible || isNaN(cantidad)){
-				alert('Cantidad no disponible');
-			}else{
-				$.each(JsonPedido, function(index,val){
-					if (val.id == id) {
-						exist=true;
-					}
-				});
-				if (exist==false) {
-					JsonPedido.push({'id':id, 'cantidad':cantidad, 'valor':valor});	
-					$('#shipitem').html(JsonPedido.length);
-					$('#Producto').modal('hide');
-				}
-				console.log(JSON.stringify(JsonPedido));
-			}
+		// 	console.log(cantidad+"   -    "+ disponible);
+		// 	if (cantidad >disponible || isNaN(cantidad)){
+		// 		alert('Cantidad no disponible');
+		// 	}else{
+		// 		$.each(JsonPedido, function(index,val){
+		// 			if (val.id == id) {
+		// 				exist=true;
+		// 			}
+		// 		});
+		// 		if (exist==false) {
+		// 			JsonPedido.push({'id':id, 'cantidad':cantidad, 'valor':valor});	
+		// 			$('#shipitem').html(JsonPedido.length);
+		// 			$('#Producto').modal('hide');
+		// 		}
+		// 		console.log(JSON.stringify(JsonPedido));
+		// 	}
 			
-		}
-		function pedido(){
-			localStorage.setItem('DatosPedido', JSON.stringify(JsonPedido));
-			window.location.href = 'DetallePedido.html';
-		}
+		// }
+		// function pedido(){
+		// 	localStorage.setItem('DatosPedido', JSON.stringify(JsonPedido));
+		// 	window.location.href = 'DetallePedido.html';
+		// }
 	
 
-		function Limpiar(){
-			$('#Producto').modal('hide');
-			$('#Cantidad').val('');
-			$( "#media" ).prop( "checked", false );			
-		}
+		// function Limpiar(){
+		// 	$('#Producto').modal('hide');
+		// 	$('#Cantidad').val('');
+		// 	$( "#media" ).prop( "checked", false );			
+		// }
 
 
 	</script>

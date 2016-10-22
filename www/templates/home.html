@@ -20,8 +20,7 @@
 
             }
     	.btn-home{
-    		height: 18vw;
-    		width: 24vw;
+    	
     		word-break: break-all;
  			word-wrap: break-word;
  			border-radius: 15px;
@@ -63,7 +62,7 @@
 	    		margin-top:8%;
 	    	}
 		}
-		@media (min-width: 700px) {
+		@media (min-width: 7px) {
 		 /* .nombremod {
 		    display: none;
 		  }*/
@@ -81,7 +80,7 @@
 	    		opacity: 0.9999;
 	    	}
 	    	.homeimg{
-	    		font-size: 15vw;
+	    		font-size: 12vw;
 	    		margin-top:8%;
 	    	}
 		}
@@ -121,7 +120,15 @@
 				$('#homediv').append(divmodule);
 			});
 			// $('#homediv').append(divmodule);
+			stilo();
 		});
+		function stilo(){
+			var ancho = $(window).width()/4;
+			var alto = $(window).height();
+			alert(ancho+'px');
+			$('.btn-home').width(ancho-34);
+			$('.btn-home').height(ancho-22);
+		}
 
 
 	</script>
