@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="../font/css/font-awesome.min.css" />
     <script src="../js/jquery-3.1.1.min.js" type="text/javascript"></script>
     <script src="../js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../js/Config.js" type="text/javascript"></script>
     <style type="text/css" media="screen">
 	 body{
             background-image:url('../img/homefondo.png');
@@ -32,7 +33,14 @@
        }
        .Inactivo{
        	 background-color: darkgrey;
+         opacity: 0.99;
        }
+
+       .Inactivo :hover{
+                 background-color: darkgrey;
+         opacity: 0.99;
+       }
+
        #listgroup a{
        	font-size: 2em;
        	padding-top: 10px: 
@@ -175,7 +183,7 @@
 			$('#listgroup').empty();
 			$.ajax({
                 type:'post',
-                url:'http://192.168.0.20/BACKEND/CONTROLLER/productos.php',
+                url:'http://'+Servidor+'/backend/controller/productos.php',
                 data:{productos:'get'},
                 crossDomain: true,
                 cache: false,
@@ -187,7 +195,7 @@
                  $.each(Json, function(index,val){
                  	//console.log(val.ID);
                  	var item =	"<a href='#' onclick='verProducto("+val.ID+");return false;'"+
-                 				"class='list-group-item elementos"+val.ESTADO+"'>"+val.NOMBRE+
+                 				"class='"+val.ESTADO+" list-group-item elementos'>"+val.NOMBRE+
 		  						"<small class='pull-right'>$ "+val.PRECIO+"</small></a>";
 		  			//console.log(item);
 		  			$('#listgroup').append(item);
@@ -205,7 +213,7 @@
 			var estado=$('#Estado').val();
 			$.ajax({
                 type:'post',
-                url:'http://192.168.0.20/BACKEND/CONTROLLER/productos.php',
+                url:'http://'+Servidor+'/backend/controller/productos.php',
                 data:{productos:'add', nombre:nombre, codigo:codigo, cantini:cantini,precio:precio,unidad:unidad,estado:estado},
                 crossDomain: true,
                 cache: false,
@@ -244,7 +252,7 @@
 			$('#modalfooter').html(btnadd+btnclose);
 			$.ajax({
                 type:'post',
-                url:'http://192.168.0.20/BACKEND/CONTROLLER/productos.php',
+                url:'http://'+Servidor+'/backend/controller/productos.php',
                 data:{productos:'get'},
                 crossDomain: true,
                 cache: false,
@@ -277,7 +285,7 @@
 			var estado=$('#Estado').val();
 			$.ajax({
                 type:'post',
-                url:'http://192.168.0.20/BACKEND/CONTROLLER/productos.php',
+                url:'http://'+Servidor+'/backend/controller/productos.php',
                 data:{productos:'edit', nombre:nombre, codigo:codigo, cantini:cantini,precio:precio,unidad:unidad,estado:estado,id:id},
                 crossDomain: true,
                 cache: false,

@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="../font/css/font-awesome.min.css" />
     <script src="../js/jquery-3.1.1.min.js" type="text/javascript"></script>
     <script src="../js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../js/Config.js" type="text/javascript"></script>
     <style type="text/css" media="screen">
 	 body{
             background-image:url('../img/homefondo.png');
@@ -128,6 +129,17 @@
 			font-size: 1.4em;
 			color: white;
 		}
+		.Scroller{
+			height:670px;
+			overflow-y: scroll;
+		}
+		.containerbg{
+			background-color: transparent;
+
+		}
+		.center{ 
+			margin-left: 12vw;
+		 }
     </style>
 </head>
 <body>
@@ -173,8 +185,31 @@
 	<!-- <hr width="100%"/> -->
 	<div class="container " id="listprod">
 		<div class="list-group" id="listgroup"></div>
+		<div class="list-group" id="detailgroup"></div>
 	</div>
 	
+	<nav class="navbar  navbar-fixed-bottom">
+  <div class="container containerbg">
+ 	<div class=".btn-group.btn-group-justified btn-group-lg >" role="group" style="margin-bottom: 3vw; ">
+
+	  <div class="col-xs-4 col-md-4 col-lg-4" style="text-align: center; margin-bottom: 3vw;">
+	  	<button type="button" id="btncancel" onclick="Cancelar()" class="btn btn-danger btn-lg">Cancelar</button>
+	  	</div>
+	  <div class="col-xs-4 col-md-4 col-lg-4" style="text-align: center; margin-bottom: 3vw;">
+	  	<button type="button" id="btnpendiente" onclick="Pendiente()" class="btn btn-default btn-lg">Pago</button>
+	  	</div>
+	  <div class="col-xs-4 col-md-4 col-lg-4" style="text-align: center; margin-bottom: 3vw;">
+	  	<button type="button" id="btnguardar" onclick="" class="btn btn-success btn-lg">Guardar</button>
+	  	</div>
+	</div> 
+  </div>
+</nav>
+
+
+
+
+
+
 
 
 	<script  type="text/javascript" charset="utf-8" async defer>
@@ -183,6 +218,7 @@
 
 		$(document).ready(function(){
 			getpedido();
+
 			
 			 // document.addEventListener("deviceready", onDeviceReady, false); 
 		});
@@ -192,58 +228,119 @@
 
 		function getpedido(){
 			$('#listgroup').empty();
-
 			var datos= JSON.parse(localStorage.getItem("DatosPedido"));
 			var ids='';
-			console.log(datos);
+			//console.log(datos);
 			$.each(datos, function(index, val){
 				ids=ids+val.id+',';
 			});
 			var topedido =ids.substring(0,ids.length-1);
 			$.ajax({
                 type:'post',
-                url:'http://186.28.163.31:300/backend/controller/Pedido.php',
+                url:'http://'+Servidor+'/backend/controller/Pedido.php',
                 data:{pedido:'get', valores:topedido},
                 crossDomain: true,
                 cache: false,
                 datatype: 'json',
               success: function(data){
-              	//console.log(data);
+              //	console.log(JSON.stringify(data));
+              	if (data=='\r\n') {
+              		 var divisor =	"<hr width='100%'/>"+
+                 				"<br><big class='pull-right total'><big><big>Total Pedido: $ "+0+"</big></big></big>";
+                 $('#detailgroup').html(divisor);
+              	}
                  var Json = JSON.parse(data); 
                  var total=0;
                  //console.log(JSON.stringify(Json));  
                  $.each(Json, function(index,val){
  					$.each(datos, function(i,valor){
+ 						if (valor.cantidad % 1 != 0) {				
+ 							cant = (valor.cantidad -0.5)+' 1/2';
+ 						}else{cant =valor.cantidad;}
  						if (valor.id ==val.ID) {
  							var items =	"<a href='#' ondblclick='quitaritem("+val.ID+");return false;'"+
  								"class='list-group-item lista'>"+
 		  						"<span>"+val.NOMBRE+"</span><br>"+
 		  						// "<big style='display'>"+val.ID+"</big>"+
 		  						"<span> $ "+valor.valor+"</span>"+
-		  						"<span> x "+valor.cantidad+"</span>"+
+		  						"<span> x "+cant+"</span>"+
 		  						"<span class='pull-right'> $ "+(valor.valor*valor.cantidad)+"</span>"+
 		  						"</a>";
 		  						total=total+(valor.valor*valor.cantidad);
 		  						$('#listgroup').append(items);
  						}
-
- 					});
-		  			
-		  			
+ 					});  			
                  });
-
+                 scroll();
                  var divisor =	"<hr width='100%'/>"+
                  				"<br><big class='pull-right total'><big><big>Total Pedido: $ "+total+"</big></big></big>";
-                 $('#listgroup').append(divisor);
+                 $('#detailgroup').html(divisor);
               }
             });
 		}
 
+	function quitaritem(id){
+		var datos= JSON.parse(localStorage.getItem("DatosPedido"));
+		var tiped =false;
+		var indice;			
+			console.log(JSON.stringify(datos));
+			$.each(datos, function(index, val){
+				console.log(index +' ---///---  '+id );
+				if (val.id ==id) {
+					console.log('index '+ index);
+					indice=index;
+					console.log('indice '+ indice);
+					tiped =true;
+				}
+				console.log(JSON.stringify(datos));
+			});
+			if (tiped==true) {
+				datos.splice(indice, 1);
+			}
+			console.log(JSON.stringify(datos));
+			localStorage.setItem('DatosPedido', JSON.stringify(datos));
+			getpedido();
+	}
 		
 	function pedidohecho(){
 		localStorage.removeItem('DatosPedido');
 		window.location.href ='ventas.html';
 	}
+
+	function Cancelar(){
+		localStorage.removeItem('DatosPedido');
+		window.location.href ='ventas.html';	
+	}
+	var estado='Pagado';
+	function Pendiente(){
+		var actual =$('#btnpendiente').text();
+		if (actual=='Pago') {
+			$('#btnpendiente').text('Pendiente');
+			estado ='Pendente';	
+			$('#btnpendiente').addClass('btn-warning');
+			$('#btnpendiente').removeClass('btn-default');
+		}else{
+			$('#btnpendiente').text('Pago');
+			estado ='Pagado';	
+			$('#btnpendiente').removeClass('btn-warning');
+			$('#btnpendiente').addClass('btn-default');
+		}
+		
+
+	}
+
+
+	function scroll(){
+	var alto= $('#listgroup').height();
+	console.log('el widht es '+ alto );
+	if (alto > 699) {
+		$('#listgroup').addClass('Scroller');
+
+	}else{
+		$('#listgroup').removeClass('Scroller');		
+	}
+
+}
 
 
 	</script>
