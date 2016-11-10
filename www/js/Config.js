@@ -1,3 +1,3 @@
 
-var Servidor ='186.28.173.83:300';
+var Servidor ='138.128.173.218/~takeon';
 var Path ='';

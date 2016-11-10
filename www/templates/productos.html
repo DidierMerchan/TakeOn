@@ -72,14 +72,14 @@
 
        @media (min-width: 910px) {
 		body{
-			font-size: 5.55em;
+			font-size: 4em;
 		}
 		#newitem{
 			height: 9vw;
 			height: 9vw;
 		}
 		#newitem i{
-			font-size: 5.55em;	
+			font-size: 4em;	
 		}
 
 
@@ -193,7 +193,7 @@
                 cache: false,
                 datatype: 'json',
               success: function(data){
-              	//console.log(data);
+              	console.log(data);
                  var Json = JSON.parse(data); 
                  //console.log(JSON.stringify(Json));  
                  $.each(Json, function(index,val){
